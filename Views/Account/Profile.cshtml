@@ -1,0 +1,148 @@
+﻿@model ProfileDto
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+@{
+	var appUser = await UserManager.GetUserAsync(User);
+
+	string userRole = "";
+	if (User.IsInRole("admin")) userRole = "Admin";
+	if (User.IsInRole("seller")) userRole = "Seller";
+	if (User.IsInRole("client")) userRole = "Client";
+}
+
+<div class="row">
+	<div class="col-md-8 mx-auto rounded border p-4">
+		<h2 class="mb-3">Profile</h2>
+		<hr />
+
+		@if (ViewBag.ErrorMessage != null)
+		{
+			<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+				<strong>@ViewBag.ErrorMessage</strong>
+				<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+			</div>
+		}
+		else if (ViewBag.SuccessMessage != null)
+		{
+			<div class='alert alert-success alert-dismissible fade show' role='alert'>
+				<strong>@ViewBag.SuccessMessage</strong>
+				<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+			</div>
+		}
+
+
+		<div class="row mb-2">
+			<div class="col-sm-4">First Name</div>
+			<div class="col-sm-8">@appUser?.FirstName</div>
+		</div>
+
+		<div class="row mb-2">
+			<div class="col-sm-4">Last Name</div>
+			<div class="col-sm-8">@appUser?.LastName</div>
+		</div>
+
+		<div class="row mb-2">
+			<div class="col-sm-4">Email</div>
+			<div class="col-sm-8">@appUser?.Email</div>
+		</div>
+
+		<div class="row mb-2">
+			<div class="col-sm-4">Phone</div>
+			<div class="col-sm-8">@appUser?.PhoneNumber</div>
+		</div>
+
+		<div class="row mb-2">
+			<div class="col-sm-4">Address</div>
+			<div class="col-sm-8">@appUser?.Address</div>
+		</div>
+
+		<div class="row mb-2">
+			<div class="col-sm-4">Role</div>
+			<div class="col-sm-8">@userRole</div>
+		</div>
+
+		<div class="row mb-2">
+			<div class="col-sm-4">Created At</div>
+			<div class="col-sm-8">@appUser?.CreatedAt</div>
+		</div>
+
+		<hr />
+
+		<div>
+			<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#EditProfileModal">
+				Edit Profile
+			</button>
+
+			<a class="btn btn-warning btn-sm" asp-controller="Account" asp-action="Password">Edit Password</a>
+		</div>
+
+	</div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="EditProfileModal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5">Edit Profile</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+
+				<form method="post">
+					<div class="row mb-2">
+						<label class="col-sm-4 col-form-label">First Name</label>
+						<div class="col-sm-8">
+							<input class="form-control" asp-for="FirstName">
+							<span asp-validation-for="FirstName" class="text-danger"></span>
+						</div>
+					</div>
+
+					<div class="row mb-2">
+						<label class="col-sm-4 col-form-label">Last Name</label>
+						<div class="col-sm-8">
+							<input class="form-control" asp-for="LastName">
+							<span asp-validation-for="LastName" class="text-danger"></span>
+						</div>
+					</div>
+
+					<div class="row mb-2">
+						<label class="col-sm-4 col-form-label">Email</label>
+						<div class="col-sm-8">
+							<input class="form-control" asp-for="Email">
+							<span asp-validation-for="Email" class="text-danger"></span>
+						</div>
+					</div>
+
+					<div class="row mb-2">
+						<label class="col-sm-4 col-form-label">Phone</label>
+						<div class="col-sm-8">
+							<input class="form-control" asp-for="PhoneNumber">
+							<span asp-validation-for="PhoneNumber" class="text-danger"></span>
+						</div>
+					</div>
+
+					<div class="row mb-2">
+						<label class="col-sm-4 col-form-label">Address</label>
+						<div class="col-sm-8">
+							<input class="form-control" asp-for="Address">
+							<span asp-validation-for="Address" class="text-danger"></span>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="offset-sm-4 col-sm-8">
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</div>
+					</div>
+
+				</form>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>

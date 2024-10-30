@@ -60,7 +60,7 @@ namespace BestStoreMVC.Services
                 CreatedAt = DateTime.Now,
             };
 
-            string initialPassword = "admin123";
+            string initialPassword = "AdmininSifresi";
 
 
             var result = await userManager.CreateAsync(user, initialPassword);

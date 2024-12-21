@@ -1,0 +1,1 @@
+teknolojialsat.com.tr
